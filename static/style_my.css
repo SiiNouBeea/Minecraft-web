@@ -1,0 +1,244 @@
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 当内容超出高度时显示垂直滑动条 */
+    overflow-x: auto; /* 隐藏水平滑动条 */
+}
+
+/* 重置默认的列表样式 */
+ul {
+    list-style-type: none; /* 移除列表项前的默认标记（如圆点或数字） */
+    margin: 0;           /* 移除默认的外边距 */
+    padding: 0;          /* 移除默认的内边距 */
+}
+
+/* 设置列表项的样式 */
+li {
+    margin-left: 20px;    /* 为列表项添加左侧外边距，使其靠左 */
+}
+
+.Bio {
+    border: 1px solid #ccc; /* 添加边框，可以根据需要调整颜色和宽度 */
+    padding: 20px; /* 内边距，根据需要调整 */
+    margin: 20px; /* 外边距，根据需要调整 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 边框阴影，可以调整水平偏移、垂直偏移、模糊半径和颜色 */
+    background-color: #fff; /* 背景颜色，根据需要调整 */
+    border-radius: 8px; /* 边框圆角，根据需要调整 */
+}
+
+.centers {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.navbar {
+    text-align: center;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar span{
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    background-color: #fff;
+    color: black;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.main-window {
+    background-color: white;
+    width: 800px; /* 增加最大宽度 */
+    max-height: 2400px; /* 增加最大高度，根据需要调整 */
+    margin: 60px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 20px;
+}
+
+.admin-container {
+    width: 90%;
+    max-height: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 表格容器样式 */
+#table-container {
+    max-width: 800px; /* 设置最大宽度 */
+    max-height: 400px; /* 设置最大高度 */
+    overflow: auto; /* 添加滚动条 */
+    border: 1px solid #ccc; /* 可选：添加边框 */
+    margin-top: 20px;
+}
+
+.logout-button {
+    background-color: #f44336; /* 红色背景 */
+    max-width: 50px;
+    color: white; /* 白色文字 */
+    padding: 10px 20px; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 5px; /* 圆角边框 */
+    cursor: pointer; /* 鼠标手形 */
+    font-size: 16px; /* 字体大小 */
+    text-decoration: none; /* 无下划线 */
+    transition: background-color 0.3s; /* 背景色渐变 */
+    position: fixed; /* 固定定位 */
+    bottom: 2px; /* 距离底部20px */
+    left: 2px; /* 距离左侧20px */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+
+.logout-button:hover {
+    background-color: #da190b; /* 鼠标悬停时更深的红色 */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    max-width: 800px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    width: 780px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* 允许垂直方向上的调整 */
+}
+
+.form-group select[type="gender"],
+.form-group select {
+    width: 100%;
+    width: 801.33px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+
+.table-button {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b); /* 彩色渐变 */
+    color: white; /* 白色文字 */
+    padding: 10px 20px; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 5px; /* 圆角边框 */
+    cursor: pointer; /* 鼠标手形 */
+    font-size: 16px; /* 字体大小 */
+    transition: background 0.3s; /* 背景色渐变 */
+}
+
+.table-button:hover {
+    background: linear-gradient(90deg, #feb47b, #ff7e5f); /* 鼠标悬停时改变渐变方向 */
+}
+
+
+/* 彩色按钮 */
+.gradient-button {
+    background: linear-gradient(45deg, #ff5b77, #ff9a00, #f1e130, #4cd137, #00b4d8, #5f4bb7);
+    background-size: 700% 700%;
+    color: white;
+    padding: 15px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: gradient-animation 5s ease infinite;
+    text-transform: uppercase; /* 使文本大写 */
+}
+
+/* 鼠标悬停效果 */
+.gradient-button:hover {
+    background-size: 100% 100%; /* 改变渐变背景的大小 */
+    transform: scale(1.1); /* 放大按钮 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* 添加阴影效果 */
+}
+
+/* 渐变动画关键帧 */
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

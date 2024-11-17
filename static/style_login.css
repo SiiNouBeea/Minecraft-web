@@ -1,0 +1,62 @@
+/* 设置整个登录页面的字体、背景颜色、外边距和内边距 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 定义容器的背景颜色、最大宽度、外边距、内边距和阴影效果 */
+.container {
+    background-color: white;
+    max-width: 500px;
+    margin:50px auto;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 设置标题居中对齐 */
+h2 {
+    text-align: center;
+}
+
+/* 为表单组添加下边距 */
+.form-group {
+    margin-bottom:15px;
+}
+
+/* 为标签设置块级显示和下边距 */
+.form-group label {
+    display: block;
+    margin-bottom:5px;
+}
+
+/* 为输入框设置宽度、内边距、边框和圆角 */
+.form-group input {
+    width:95%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    outline: none; /* 移除默认的轮廓线 */
+}
+
+.form-group input:not(:focus):not(:valid) {
+    border-color: red; /* 如果输入框未填写或验证不通过，显示红色边框 */
+}
+
+/* 为按钮设置宽度、内边距、背景颜色、文字颜色、边框、圆角和鼠标指针样式 */
+button {
+    width: 100%;
+    padding:10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius:4px;
+    cursor: pointer;
+}
+
+/* 为按钮添加悬停时的背景颜色效果 */
+button:hover {
+    background-color: #4cae4c;
+}

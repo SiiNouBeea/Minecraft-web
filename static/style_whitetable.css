@@ -1,0 +1,137 @@
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 当内容超出高度时显示垂直滑动条 */
+    overflow-x: auto;
+}
+.centers {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.navbar {
+    text-align: center;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar span{
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    background-color: #fff;
+    color: black;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.main-window {
+    background-color: white;
+    width: 800px; /* 增加最大宽度 */
+    max-height: 2400px; /* 增加最大高度，根据需要调整 */
+    margin: 60px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 20px;
+}
+
+.application {
+        width: 500px;
+        max-height: 800px;
+        float: left;
+        margin: 10px;
+        border: 1px solid #ccc;
+        overflow: auto;
+        position: relative;
+}
+.header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-weight: bold;
+}
+.content {
+    height: 90%;
+    overflow-y: auto;
+    padding: 10px;
+}
+/* 按钮容器样式 */
+.button-container {
+    display: flex; /* 使用flex布局让按钮并排 */
+    position: absolute;
+    top: 4px; /* 距离顶部10px */
+    right: 10px; /* 距离右侧10px */
+}
+.button-container form {
+    margin: 0 -7px; /* 调整按钮之间的间距 */
+}
+.buttons {
+    position: absolute;
+    top: 4px; /* 距离顶部10px */
+    right: 10px; /* 距离右侧10px */
+}
+button {
+    padding: 5px 10px; /* 减少内边距，使按钮更小 */
+    margin: 0 10px;
+    cursor: pointer;
+}
+/*绿色*/
+.green-gradient-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #34e89e, #0f3443);
+    color: white;
+    font-size: 15px;
+    transition: background 0.3s ease;
+}
+.green-gradient-button:hover {
+    background: linear-gradient(135deg, #34e89e, #0f3443);
+}
+/*红色*/
+.red-gradient-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ff512f, #a30000);
+    color: white;
+    font-size: 15px;
+    transition: background 0.3s ease;
+}
+.red-gradient-button:hover {
+    background: linear-gradient(135deg, #ff512f, #a30000);
+}
