@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>您今日已申请</title>
+     <link rel="stylesheet" href="static/style_reg.css">
+</head>
+<body>
+   <div class="container">
+        <h2>您今天已经申请过了！</h2>
+        <p>不要着急哦，请等待审核！3秒后将跳转到个人主页。</p>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = '/My';
+        }, 3000);
+    </script>
+</body>
+</html>

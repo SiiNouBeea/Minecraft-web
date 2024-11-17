@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录成功</title>
+    <link rel="stylesheet" href="static/style_login.css">
+</head>
+<body>
+    <div class="container">
+        <h2>已登出</h2>
+        <p>您已登出系统。3秒后将跳转到登录页面。</p>
+    </div>
+    <script>
+        // 3秒后跳转到主页面的JavaScript代码
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 3000);
+    </script>
+</body>
+</html>

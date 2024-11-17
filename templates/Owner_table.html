@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员面板</title>
+    <link rel="stylesheet" href="../static/style_index.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index">主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <a href="/My" style="float:right;">我的</a>
+    <span style="float:right;">管理员面板</span>
+    <a href="/Whitelist_table" style="float:right;">白名单审核</a>
+</div>
+
+
+<div class="main-window">
+    <h3>操作台</h3>
+    <div class="main-content">
+        <div id="table-container">
+            <!-- Table will be loaded here -->
+            {{ tableHTML|safe }}
+        </div>
+        <form id="query-form" method="POST" action="Owner_table">
+            <div class="operation-select">
+                {{ table_nameHTML|safe }}
+                {{ queryHTML|safe }}
+                {{ listHTML|safe }}
+                <button type="submit" name="数据库">查询</button>
+            </div>
+        </form>
+        <div id="result">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+    <form id="command_get" method="post" action="do_command">
+        <div class="form-group">
+            <label for="command">简介:</label>
+            <input type="text" id="command" name="command" value="{{ lastcommand }}" required>
+        </div>
+        <button type="submit">执行命令</button>
+    </form>
+    {{ modalHTML|safe }}
+</div>
+<div class="centers"></div>
+<a href="/logout" class="logout-button">登出</a>
+
+<script src="script_index.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Operations</title>
+    <link rel="stylesheet" href="../static/style_index.css">
+</head>
+<body>
+
+<div class="navbar">
+    <span >主页</span>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <a href="/login" style="float:right;">登录</a>
+</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+      {{ modalHTML|safe }}
+  </div>
+</div>
+<script>
+// 获取弹出窗口元素
+var modal = document.getElementById("myModal");
+
+// 显示弹出窗口
+modal.style.display = "flex";
+
+// 2秒后隐藏弹出窗口
+setTimeout(function() {
+  modal.style.display = "none";
+}, 2000);
+</script>
+<div class="main-window">
+    <!-- 排行榜容器 -->
+    <div class="leaderboard-container">
+        <!-- 金币排行 -->
+        <div class="leaderboard" id="coinLeaderboard">
+            <h2>金币排行榜</h2>
+            {{ coin|safe }}
+        </div>
+        <!-- 星星排行 -->
+        <div class="leaderboard" id="starLeaderboard">
+            <h2>星星排行榜</h2>
+            {{ stars|safe }}
+        </div>
+    </div>
+</div>
+<div class="centers"></div><a href="/logout" class="logout-button">登出</a>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="script_index.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白名单审核面板</title>
+    <link rel="stylesheet" href="../static/style_whitetable.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index">主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <a href="/My" style="float:right;">我的</a>
+    <a href="/Owner_table" style="float:right;">管理员面板</a>
+    <span style="float:right;">白名单审核</span>
+</div>
+<div class="main-window">
+    <div class="main-content">
+
+        <!-- 审核框 -->
+        {{ applyHTML|safe }}
+
+    </div>
+</div>
+
+</body>
+</html>

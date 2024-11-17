@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑个人信息</title>
+    <link rel="stylesheet" href="../static/style_My.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index" >主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <span style="float:right;">我的</span>
+</div>
+
+<div class="main-window">
+    <h2>编辑个人信息</h2>
+    <form id="editProfileForm" method="POST">
+        <div class="form-group">
+            <label for="PlayerName">游戏名（请注意，一但申请后，若审核通过，将无法再自主更改游戏名！）</label>
+            <input type="text" id="PlayerName" name="PlayerName" value="{{ user_info.PlayerName }}" required>
+        </div>
+        <div class="form-group">
+            <label for="Genuine">是否拥有正版:</label>
+            <select id="Genuine" name="Genuine">
+                <option value=1 {% if user_info.Genuine == True %}selected{% endif %}>拥有</option>
+                <option value=0 {% if user_info.Genuine == False %}selected{% endif %}>暂无</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="paper">简介:</label>
+            <textarea id="paper" name="paper" rows="4" cols="50" maxlength="1000"> 介绍一下自己，可以从游戏经历、个人爱好、性格等方面讲讲，或者谈谈自己为什么想加入服务器 </textarea>
+        </div>
+        <button type="submit">提交申请</button>
+    </form>
+</div>
+
+</body>
+</html>

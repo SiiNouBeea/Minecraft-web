@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑个人信息</title>
+    <link rel="stylesheet" href="../static/style_my.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index" >主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <span style="float:right;">我的</span>
+</div>
+
+<div class="main-window">
+    <h2>编辑个人信息</h2>
+    <form id="editProfileForm" method="POST">
+        <div class="form-group">
+            <label for="firstName">名:</label>
+            <input type="text" id="firstName" name="FirstName" value="{{ user_info.FirstName }}" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">姓:</label>
+            <input type="text" id="lastName" name="LastName" value="{{ user_info.LastName }}" required>
+        </div>
+        <div class="form-group">
+            <label for="gender">性别:</label>
+            <select id="gender" name="Gender">
+                <option value="沃尔玛购物袋" {% if user_info.Gender == '沃尔玛购物袋' %}selected{% endif %}>沃尔玛购物袋</option>
+                <option value="死亡花岗岩" {% if user_info.Gender == '死亡花岗岩' %}selected{% endif %}>死亡花岗岩</option>
+                <option value="武装直升机" {% if user_info.Gender == '武装直升机' %}selected{% endif %}>武装直升机</option>
+                <option value="男" {% if user_info.Gender == '男' %}selected{% endif %}>男</option>
+                <option value="女" {% if user_info.Gender == '女' %}selected{% endif %}>女</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="birthday">生日:</label>
+            <input type="date" id="birthday" name="Birthday" value="{{ user_info.Birthday }}">
+        </div>
+        <div class="form-group">
+            <label for="bio">简介:</label>
+            <textarea id="bio" name="Bio" rows="4" cols="50" maxlength="255">{{ user_info.Bio }}</textarea>
+        </div>
+        <button type="submit">保存更改</button>
+    </form>
+</div>
+
+</body>
+</html>

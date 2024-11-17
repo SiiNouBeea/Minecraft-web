@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Operations</title>
+    <link rel="stylesheet" href="../static/style_my.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index">主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <span style="float:right;">我的</span>
+    <a href="/Owner_table" style="float:right;">管理员面板</a>
+    <a href="/Whitelist_table" style="float:right;">白名单审核</a>
+</div>
+
+<div class="main-window">
+    <h1>个人主页</h1>
+
+    <div class="main-content">
+        <h2>用户信息</h2>
+        <ul>
+            <h3>基本信息</h3>
+            <li>UserID: <span>{{ user_info.UserID }}</span></li>
+            <li>昵称: <span>{{ user_info.NickName }}</span></li>
+            <li>邮箱: <span>{{ user_info.Email }}</span></li>
+            <li>权限组: <span>{{ user_info.RoleName }}</span></li>
+            <li>硬币数: <span>{{ user_info.Coins }}</span></li>
+            <li>星星数: <span>{{ user_info.Stars }}</span></li>
+            <li>创建时间: <span>{{ user_info.CreateAt }}</span></li>
+        </ul>
+        <ul>
+            <h3>个人信息 <span><a href="/set_Profile">修改</a></span></h3>
+            <li>姓名: <span>{{ user_info.FirstName }}{{ user_info.LastName }}</span></li>
+            <li>性别: <span>{{ user_info.Gender }}</span></li>
+            <li>生日: <span>{{ user_info.Birthday }}</span></li>
+            <li>简介: <span><div class="Bio">{{ user_info.Bio }}</div></span></li>
+        </ul>
+        <ul>
+            <h3>游戏数据 </h3>
+            <li>玩家ID: <span>{{ user_info.PlayerID }}</span></li>
+            <li>游戏昵称: <span>{{ user_info.PlayerName }}</span></li>
+            <li>UUID: <span>{{ user_info.UUID }}</span></li>
+            <li>白名单: <span>{{ user_info.WhiteState|safe }}</span></li>
+        </ul>
+        <br><br>
+        <button class="table-button" onclick="openTablePanel()">登录记录</button>
+        <div id="table-container" style="display: none;">
+            <h2>登录记录表</h2>
+            <!-- Table will be loaded here -->
+            {{ LoginHTML|safe }}
+        </div>
+    </div>
+    <button class="gradient-button" onclick="openAdminPanel()">管理员面板</button> <!-- 管理员按钮 -->
+    <div id="admin-panel" style="display: none;">
+        <h1>管理员面板</h1>
+        <div class="admin-container">
+            <h2>用户总览</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>UserID</th>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>电子邮件</th>
+                    <th>权限组</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.UserID }}</td>
+                    <td>{{ user.Username }}</td>
+                    <td>{{ user.Nickname }}</td>
+                    <td>{{ user.Email }}</td>
+                    <td>{{ user.RoleName }}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="/Owner_table"><h3>进入管理员控制台</h3></a><a href="/Whitelist_table"><h3>进入白名单审核</h3></a>
+    </div>
+</div>
+
+<div class="centers"></div>
+<a href="/logout" class="logout-button">登出</a>
+</body>
+
+<script>
+function openTablePanel() {
+    document.getElementById('table-container').style.display = 'block';
+}
+function openAdminPanel() {
+    document.getElementById('admin-panel').style.display = 'block'; // 显示管理员面板
+}
+
+</script>
+</html>
