@@ -17,10 +17,10 @@ app.secret_key = 'ABuL1314'
 # 数据库连接配置
 config = {
     'driver': '{ODBC Driver 17 for SQL Server}',
-    'server': '春宵怡刻',
+    'server': '******',
     'database': 'User_All',
-    'uid': 'czy',
-    'pwd': '1341'
+    'uid': '******',
+    'pwd': '******'
 }
 
 # 连接数据库
