@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绑定QQ号</title>
+    <link rel="stylesheet" href="../static/style_my.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index" >主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <span style="float:right;">我的</span>
+</div>
+
+<div class="main-window">
+    <h2>编辑个人信息</h2>
+    <form id="editProfileForm" method="POST">
+        <div class="form-group">
+            <label for="qq">QQ号绑定</label>
+            <input type="text" id="qq" name="qq" value="{{ QQ }}" required>
+        </div>
+        <button type="submit">{{ text }}</button>
+    </form>
+    {{ yanzheng|safe }}
+</div>
+
+</body>
+</html>
