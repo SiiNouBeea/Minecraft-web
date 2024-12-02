@@ -774,6 +774,25 @@ def show_My():
         return render_template('Owner.html', user_info=user_info, LoginHTML=LoginHTML, users=users)
     return render_template('My.html', user_info=user_info, LoginHTML=LoginHTML)
 
+def write_QQ_yanzheng(QQ, yanzheng, user_id):
+    # 构造文件名
+    file_name = f"QQ验证/{QQ}.txt"
+    path = os.path.join('', file_name)
+    with open(path, 'w') as file:
+        file.write(f"{yanzheng}&{user_id}")
+    print(f"文件>>QQ验证/{QQ}.txt 已成功创建！")
+
+@app.route('/Con_QQ')
+def show_ConQQ():
+    return render_template('Con_QQ.html', text="获取验证", QQ="请输入QQ号")
+
+@app.route('/Con_QQ', methods=['POST'])
+def Con_To_QQ():
+    input_QQ = request.form.get('qq')
+    yanzhengma = random.randint(100000,999999)
+    yanzheng = f'请您使用QQ：<span style="color: #66ccff">{input_QQ}</span>添加：<span style="color: #66cc66">3663836748</span>并发送：“<span style="color: #ffccff"><strong>验证{yanzhengma}</strong></span>”'  # 猫猫QQ：3663836748
+    write_QQ_yanzheng(input_QQ, yanzhengma, session['UserID'])
+    return render_template('Con_QQ.html', text="检查验证码", QQ=input_QQ, yanzheng=yanzheng)
 
 @app.route('/set_Profile')
 def show_set_Profile():
