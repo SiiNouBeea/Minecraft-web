@@ -21,14 +21,16 @@
     <div class="main-content">
         <h2>用户信息</h2>
         <ul>
-            <h3>基本信息</h3>
+            <h3>基本信息<a href="/set_base">修改</a></span></h3>
             <li>UserID: <span>{{ user_info.UserID }}</span></li>
             <li>昵称: <span>{{ user_info.NickName }}</span></li>
             <li>邮箱: <span>{{ user_info.Email }}</span></li>
+            <li>手机号: <span>{{ user_info.Phone }}</span></li>
             <li>权限组: <span>{{ user_info.RoleName }}</span></li>
             <li>硬币数: <span>{{ user_info.Coins }}</span></li>
             <li>星星数: <span>{{ user_info.Stars }}</span></li>
             <li>创建时间: <span>{{ user_info.CreateAt }}</span></li>
+            <li>QQ号: <span>{{ user_info.QQID|safe }}</span></li>
         </ul>
         <ul>
             <h3>个人信息 <span><a href="/set_Profile">修改</a></span></h3>
