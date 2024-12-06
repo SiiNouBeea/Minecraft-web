@@ -134,17 +134,18 @@ th {
 /* 排行榜容器样式 */
 .leaderboard-container {
     display: flex; /* 使用flex布局 */
+    width: 1000px;
     justify-content: space-between; /* 元素之间的间距均匀分布 */
     flex-wrap: wrap; /* 如果空间不足，允许元素换行 */
 }
 
 /* 排行榜样式 */
 .leaderboard {
-    width: 48%; /* 设置每个排行榜的宽度，留下一些间隙 */
+    width: 42%; /* 设置每个排行榜的宽度，留下一些间隙 */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 10px;
+    padding: 1px;
     margin: 10px 0; /* 上下边距 */
     overflow-y: auto; /* 如果内容过长则显示滚动条 */
 }

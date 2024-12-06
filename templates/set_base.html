@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑基本信息</title>
+    <link rel="stylesheet" href="../static/style_my.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/index" >主页</a>
+    <a href="#">论坛</a>
+    <a href="#">百科</a>
+    <span style="float:right;">我的</span>
+</div>
+
+<div class="main-window">
+    <h2>编辑基础信息</h2>
+    <form id="editProfileForm" method="POST">
+        <div class="form-group">
+            <label for="NickName">昵称:</label>
+            <input type="text" id="NickName" name="NickName" value="{{ user_info.NickName }}" required>
+        </div>
+        <div class="form-group">
+            <label for="Email">邮箱:</label>
+            <input type="text" id="Email" name="Email" value="{{ user_info.Email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="Phone">手机号:</label>
+            <input type="text" id="Phone" name="Phone" value="{{ user_info.Phone }}" required>
+        </div>
+        <div class="form-group">
+            <label for="Password">修改密码（如果不想修改，请不要修改此项）:</label>
+            <input type="password" id="Password" name="Password" value="******" required>
+        </div>
+
+        <button type="submit">保存更改</button>
+    </form>
+</div>
+
+</body>
+</html>

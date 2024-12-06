@@ -17,10 +17,10 @@ app.secret_key = 'ABuL1314'
 # 数据库连接配置
 config = {
     'driver': '{ODBC Driver 17 for SQL Server}',
-    'server': '******',
+    'server': '春宵怡刻',
     'database': 'User_All',
-    'uid': '******',
-    'pwd': '******'
+    'uid': 'czy',
+    'pwd': '1341'
 }
 
 # 连接数据库
@@ -50,10 +50,7 @@ def get_users_with_roles():
 
     # 查询所有用户及其角色名称
     query = """
-    SELECT U.UserID, U.Username, U.Nickname, U.Email, R.RoleName 
-    FROM Users U
-    JOIN UserRoles_Con UC ON U.UserID = UC.UserID
-    JOIN UserRoles R ON UC.RoleID = R.RoleID
+    SELECT * FROM vw_UserDetails;
     """
     cursor.execute(query)
     users = cursor.fetchall()
@@ -66,7 +63,12 @@ def get_users_with_roles():
             'Username': user.Username,
             'Nickname': user.Nickname,
             'Email': user.Email,
-            'RoleName': user.RoleName
+            'RoleName': user.RoleName,
+            'PlayerName': user.PlayerName,
+            'WhiteState': user.WhiteState,
+            'Genuine': user.Genuine,
+            'PassDate': user.PassDate,
+            'QQID': user.QQID
         })
 
     cursor.close()
@@ -102,6 +104,11 @@ def get_playername(userid):  # 根据uesename获取用户的玩家名
     print(f"GET_PlayerName 已从 PlayerData 表获取用户 {userid} 的 PlayerName 为 {playername.rstrip(' ')}")
     return playername.rstrip(' ')
 
+def get_whitelist_state(userid):  # 根据userid获取用户WhiteState
+    cursor.execute(f"SELECT WhiteState FROM PlayerData WHERE UserID = '{userid}'")
+    WhiteState = cursor.fetchone()[0]
+    print(f"GET_WhiteState 已从 PlayerData 表获取用户 {userid} 的 WhiteState 为 {WhiteState}")
+    return WhiteState
 
 def add_leader(dia):
     tmp = []
@@ -721,18 +728,27 @@ def look_white(bool, user_id):
         else:
             return "未通过 <a  style='font-size: 12px;'>今日已申请！请等待审核结果</a>"
 
+def look_QQ(user_id):
+    cursor.execute(f"""SELECT QQID FROM UserQQ_Con WHERE UserID = {user_id}""")
+    data = cursor.fetchone()
+    if data is None:
+        return "未绑定QQ <a href='/Con_QQ' style='font-size: 12px;'>去绑定</a>"
+    else:
+        return data[0]
 
 # 个人主页
 @app.route('/My', methods=['POST', 'GET'])
 def show_My():
+    if session.get('last_do_up_or_down') is None:
+        session['last_do_up_or_down'] = "您还没进行操作"
     session['query_step'] = 0
     userid = session['UserID']
     roleid = get_role(get_name(userid))
     print(userid)
-    cursor.execute(f"SELECT Stars, Coins, CreatedAt, Email, NickName FROM Users WHERE UserID = {userid}")
+    cursor.execute(f"SELECT Stars, Coins, CreatedAt, Email, NickName, Phone FROM Users WHERE UserID = {userid}")
     userdata = cursor.fetchone()
     user_info = {'UserID': userid, 'RoleID': roleid, 'Stars': userdata[0], 'Coins': userdata[1],
-                 'CreateAt': userdata[2], 'Email': userdata[3], 'NickName': userdata[4]}
+                 'CreateAt': userdata[2], 'Email': userdata[3], 'NickName': userdata[4], 'Phone': userdata[5]}
     # 权限组id
     cursor.execute(f"SELECT RoleName FROM UserRoles WHERE RoleID = {roleid}")
     userdata = cursor.fetchone()[0]
@@ -753,7 +769,10 @@ def show_My():
     userdata = cursor.fetchone()
     user_info.update({'PlayerID': userdata[0], 'UUID': userdata[1].rstrip(),
                       'PlayerName': userdata[2].rstrip(), 'WhiteState': look_white(userdata[3], userid)})
-
+    # qq绑定信息
+    qq_id = look_QQ(userid)
+    user_info['QQID'] = qq_id
+    print("QQ>>", qq_id)
     print(user_info)
     # 之后在这添加
     cursor.execute(f"SELECT * FROM UserLoginRecords WHERE UserID = {userid}")
@@ -770,34 +789,126 @@ def show_My():
     if roleid == 1:  # 操作台
         users = get_users_with_roles()
         print(users)
-
-        return render_template('Owner.html', user_info=user_info, LoginHTML=LoginHTML, users=users)
+        if session.get('admin_panel') is not None:
+            admin_panel = session['admin_panel']
+        else:
+            admin_panel = 'none'
+        session['admin_panel'] = 'none'
+        return render_template('Owner.html', user_info=user_info, LoginHTML=LoginHTML, users=users, do_return=session['last_do_up_or_down'], admin_panel_state=admin_panel)
     return render_template('My.html', user_info=user_info, LoginHTML=LoginHTML)
 
-def write_QQ_yanzheng(QQ, yanzheng, user_id):
-    # 构造文件名
-    file_name = f"QQ验证/{QQ}.txt"
-    path = os.path.join('', file_name)
-    with open(path, 'w') as file:
-        file.write(f"{yanzheng}&{user_id}")
-    print(f"文件>>QQ验证/{QQ}.txt 已成功创建！")
 
-@app.route('/Con_QQ')
-def show_ConQQ():
-    return render_template('Con_QQ.html', text="获取验证", QQ="请输入QQ号")
+def up_or_down_usrRole(userid, set_roleid):
+    dia = {1:'Administrators', 2:'Advanced_Users', 3:'User', 5:'Banned'}
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    print('''UPDATE UserRole_Con
+            SET RoleID = ?
+            WHERE UserID = ?''', (set_roleid, userid))
+    try:
+        cursor.execute('''UPDATE UserRoles_Con
+            SET RoleID = ?
+            WHERE UserID = ?''', (set_roleid, userid))
+        conn.commit()
+        return f"您已成功将用户{userid}({get_name(userid)})的用户权限等级修改为：{dia[set_roleid]}"
+    except pyodbc.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)})
+    finally:
+        cursor.close()
+        conn.close()
 
-@app.route('/Con_QQ', methods=['POST'])
-def Con_To_QQ():
-    input_QQ = request.form.get('qq')
-    yanzhengma = random.randint(100000,999999)
-    yanzheng = f'请您使用QQ：<span style="color: #66ccff">{input_QQ}</span>添加：<span style="color: #66cc66">3663836748</span>并发送：“<span style="color: #ffccff"><strong>验证{yanzhengma}</strong></span>”'  # 猫猫QQ：3663836748
-    write_QQ_yanzheng(input_QQ, yanzhengma, session['UserID'])
-    return render_template('Con_QQ.html', text="检查验证码", QQ=input_QQ, yanzheng=yanzheng)
+def ban_whitelist(userid):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    do_in_Server(f'wid remove {get_playername(userid)}')
+    try:
+        cursor.execute('''UPDATE PlayerData
+                SET WhiteState = 0
+                WHERE UserID = ?''', (userid))
+        conn.commit()
+        return f"您已成功将用户{userid}(玩家名：{get_playername(userid)})白名单状态取消！"
+    except pyodbc.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+# 便携修改权限组
+@app.route('/up_down_role', methods=['POST', 'GET'])
+def role_up_or_down():
+    roleid = get_role(get_name(session['UserID']))
+    if roleid == 1:
+        users = get_users_with_roles()
+        print(users)
+    else:
+        return "您没有权限进入此页面！"
+    userid, doing = request.form.get('do').split('&')
+    print(doing, userid)
+    userrole = get_role(get_name(userid))
+    print(userrole)
+    session['admin_panel'] = "block"
+    if userrole == 1:
+        do_return = f"用户：{userid}({get_name(userid)}) 的用户权限已经是最高了，无法升级也无法在此处被降级！！"
+        session['last_do_up_or_down'] = do_return
+    elif userid == session['UserID']:
+        do_return = "您无法修改自己的用户组！"
+    elif userrole == 5 and doing == 'down':
+        do_return = f"用户：{userid}({get_name(userid)}) 的用户权限已经被封禁了，无法被降级！！"
+    elif userrole == 3 and doing == 'down':
+        do_return = up_or_down_usrRole(userid, 5)  # 设置为5（封禁）
+        do_return = f"用户：{userid}({get_name(userid)}) 已被封禁！！"
+        do_return += '\n(协同封禁)' + ban_whitelist(userid)
+    elif userrole == 5 and doing == 'up':
+        do_return = up_or_down_usrRole(userid, 3)  # 设置为3（用户）
+        do_return = f"用户：{userid}({get_name(userid)}) 已被解除封禁！！"
+    else:
+        if doing == 'up':
+            do_return = up_or_down_usrRole(userid, userrole - 1)  # 设置为-1
+        else:
+            do_return = up_or_down_usrRole(userid, userrole + 1)
+    session['last_do_up_or_down'] = do_return
+    return redirect(url_for('show_My'))
+
+
+@app.route('/set_base')
+def show_set_base():
+    return render_template('set_base.html', user_info=session['User_info'])
+
+# 个人信息修改
+@app.route('/set_base', methods=['POST'])
+def set_base():
+    nickname = request.form.get('NickName')
+    Email = request.form.get('Email')
+    phone = request.form.get('Phone')
+    password = request.form.get('Password')
+    print(nickname, Email, phone, password)
+    # 连接数据库并执行更新语句
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''UPDATE Users
+        SET Nickname = ?, Email = ?, Phone = ?
+        WHERE UserID = ?''', (nickname, Email, phone, session['User_info']['UserID']))
+        if password != '******':
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            cursor.execute('''UPDATE Users
+                    SET Password = ?
+                    WHERE UserID = ?''', (hashed_password.decode('utf-8'), session['User_info']['UserID']))
+        conn.commit()
+        return render_template('set_base_success.html')  # 重定向到个人主页
+    except pyodbc.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+
+
 
 @app.route('/set_Profile')
 def show_set_Profile():
     return render_template('set_Profile.html', user_info=session['User_info'])
-
 
 # 个人信息修改
 @app.route('/set_Profile', methods=['POST'])
@@ -824,6 +935,31 @@ def set_Profile():
         cursor.close()
         conn.close()
 
+def write_QQ_yanzheng(QQ, yanzheng, user_id):
+    # 构造文件名
+    file_name = f"QQ验证/{QQ}.txt"
+    path = os.path.join('', file_name)
+    with open(path, 'w') as file:
+        file.write(f"{yanzheng}&{user_id}")
+    print(f"文件>>QQ验证/{QQ}.txt 已成功创建！")
+
+@app.route('/Con_QQ')
+def show_ConQQ():
+    return render_template('Con_QQ.html', text="获取验证", QQ="请输入QQ号")
+
+@app.route('/Con_QQ', methods=['POST'])
+def Con_To_QQ():
+    input_QQ = request.form.get('qq')
+    cursor.execute(
+        f"SELECT QQID FROM UserQQ_Con WHERE QQID = '{input_QQ}'")
+    existing_QQID = cursor.fetchone()
+    if existing_QQID:
+        print(f"{input_QQ} 已被绑定！")
+        return render_template('Con_QQ.html', text="检查验证码", QQ=input_QQ, yanzheng=f'<span style="color: #66ccff">{input_QQ}<span style="color: #ff0000">已被绑定！</span>')
+    yanzhengma = random.randint(100000,999999)
+    yanzheng = f'请您使用QQ：<span style="color: #66ccff">{input_QQ}</span>添加：<span style="color: #66cc66">3663836748</span>并发送：“<span style="color: #ffccff"><strong>验证{yanzhengma}</strong></span>”'  # 猫猫QQ：3663836748
+    write_QQ_yanzheng(input_QQ, yanzhengma, session['UserID'])
+    return render_template('Con_QQ.html', text="检查验证码", QQ=input_QQ, yanzheng=yanzheng)
 
 @app.route('/get_white')
 def show_get_white():
@@ -914,7 +1050,7 @@ def execute_query_1():
     print(f"{session['UserID']}>>>正在使用数据库控制系统")
     print(f"Now query_step is {session['query_step']}")
     if session['query_step'] == 0:
-        table_nameHTML_all = '<label for ="table-select" > 选择数据表:</label ><select id = "table-select" name = "table_name" ><option value = "Users" > Users </option ><option value = "UserRoles" > UserRoles </option ><option value = "UserRoles_Con" > UserRoles_Con </option ><option value = "UserLoginRecords" > UserLoginRecords </option ><option value = "UserProfiles" > UserProfiles </option ><option value = "PlayerData" > PlayerData </option ></select >'
+        table_nameHTML_all = '<label for ="table-select" > 选择数据表:</label ><select id = "table-select" name = "table_name" ><option value = "Users" > Users </option ><option value = "UserRoles" > UserRoles </option ><option value = "UserRoles_Con" > UserRoles_Con </option ><option value = "UserLoginRecords" > UserLoginRecords </option ><option value = "UserProfiles" > UserProfiles </option ><option value = "PlayerData" > PlayerData </option ><option value = "UserQQ_Con" > UserQQ_Con </option ></select >'
         table_nameHTML_use = '<label for ="table-select" > 选择数据表:</label ><select id = "table-select" name = "table_name" ><option value = "Users" > Users </option ><option value = "UserRoles" > UserRoles </option ><option value = "UserRoles_Con" > UserRoles_Con </option ><option value = "PlayerData" > PlayerData </option ></select >'
         if session['RoleID'] == 1:
             session['query_step'] = 1

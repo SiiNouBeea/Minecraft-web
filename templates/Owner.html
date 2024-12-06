@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Operations</title>
-    <link rel="stylesheet" href="../static/style_my.css">
+    <link rel="stylesheet" href="../static/style_my_owner.css">
 </head>
 <body>
 
@@ -17,20 +17,22 @@
     <a href="/Whitelist_table" style="float:right;">白名单审核</a>
 </div>
 
-<div class="main-window">
+<div class="main-window" style="width: 1300px;">
     <h1>个人主页</h1>
 
     <div class="main-content">
         <h2>用户信息</h2>
         <ul>
-            <h3>基本信息</h3>
+            <h3>基本信息<a href="/set_base">修改</a></span></h3>
             <li>UserID: <span>{{ user_info.UserID }}</span></li>
             <li>昵称: <span>{{ user_info.NickName }}</span></li>
             <li>邮箱: <span>{{ user_info.Email }}</span></li>
+            <li>手机号: <span>{{ user_info.Phone }}</span></li>
             <li>权限组: <span>{{ user_info.RoleName }}</span></li>
             <li>硬币数: <span>{{ user_info.Coins }}</span></li>
             <li>星星数: <span>{{ user_info.Stars }}</span></li>
             <li>创建时间: <span>{{ user_info.CreateAt }}</span></li>
+            <li>QQ号: <span>{{ user_info.QQID|safe }}</span></li>
         </ul>
         <ul>
             <h3>个人信息 <span><a href="/set_Profile">修改</a></span></h3>
@@ -55,18 +57,23 @@
         </div>
     </div>
     <button class="gradient-button" onclick="openAdminPanel()">管理员面板</button> <!-- 管理员按钮 -->
-    <div id="admin-panel" style="display: none;">
+    <div id="admin-panel" style="display: {{ admin_panel_state }};">
         <h1>管理员面板</h1>
         <div class="admin-container">
-            <h2>用户总览</h2>
+            <h2>用户总览</h2> <span style="color:#66ccff">上一条操作：</span><span>{{ do_return }}</span>
             <table>
                 <thead>
                 <tr>
                     <th>UserID</th>
                     <th>用户名</th>
                     <th>昵称</th>
+                    <th>QQ号</th>
                     <th>电子邮件</th>
                     <th>权限组</th>
+                    <th>玩家名</th>
+                    <th>游玩方式</th>
+                    <th>白名单状态</th>
+                    <th>通过时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -76,9 +83,14 @@
                     <td>{{ user.UserID }}</td>
                     <td>{{ user.Username }}</td>
                     <td>{{ user.Nickname }}</td>
+                    <td>{{ user.QQID }}</td>
                     <td>{{ user.Email }}</td>
                     <td>{{ user.RoleName }}</td>
-                    <td></td>
+                    <td>{{ user.PlayerName }}</td>
+                    <td>{{ user.Genuine }}</td>
+                    <td>{{ user.WhiteState }}</td>
+                    <td>{{ user.PassDate }}</td>
+                    <td><form action="/up_down_role" method="post"><button type="submit" class="green-gradient-button" name="do" value="{{ user.UserID }}&up">升级</button><button type="submit" class="red-gradient-button" name="do" value="{{ user.UserID }}&down">降级</button></form></td>
                 </tr>
                 {% endfor %}
                 </tbody>

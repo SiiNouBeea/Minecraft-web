@@ -8,7 +8,7 @@ body, html {
     display: flex;
     flex-direction: column;
     overflow-y: auto; /* 当内容超出高度时显示垂直滑动条 */
-    overflow-x: auto; /* 隐藏水平滑动条 */
+    overflow-x: auto;
 }
 
 /* 重置默认的列表样式 */
@@ -74,7 +74,7 @@ li {
 
 .main-window {
     background-color: white;
-    width: 800px; /* 增加最大宽度 */
+    width:800px; /* 增加最大宽度 */
     max-height: 2400px; /* 增加最大高度，根据需要调整 */
     margin: 60px auto;
     padding: 20px;
@@ -92,11 +92,13 @@ li {
 
 .admin-container {
     width: 90%;
-    max-height: 800px;
-    margin: 20px auto;
-    padding: 20px;
+    max-height: 1200px;
+    margin: 16px auto;
+    padding: 16px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto; /* 添加滚动条 */
+    border: 1px solid #ccc; /* 可选：添加边框 */
 }
 
 /* Style for tables */
@@ -117,7 +119,7 @@ th {
 
 /* 表格容器样式 */
 #table-container {
-    max-width: 800px; /* 设置最大宽度 */
+    max-width: 1100px; /* 设置最大宽度 */
     max-height: 400px; /* 设置最大高度 */
     overflow: auto; /* 添加滚动条 */
     border: 1px solid #ccc; /* 可选：添加边框 */
@@ -241,4 +243,37 @@ button:hover {
     100% {
         background-position: 0% 50%;
     }
+}
+
+/*绿色*/
+.green-gradient-button {
+    display: inline-block; /* 使按钮在容器中水平排列 */
+    white-space: nowrap; /* 取消按钮内部文本的换行 */
+    padding: 2px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #34e89e, #0f3443);
+    color: white;
+    font-size: 15px;
+    transition: background 0.3s ease;
+}
+.green-gradient-button:hover {
+    background: linear-gradient(135deg, #34e89e, #0f3443);
+}
+/*红色*/
+.red-gradient-button {
+    display: inline-block; /* 使按钮在容器中水平排列 */
+    white-space: nowrap; /* 取消按钮内部文本的换行 */
+    padding: 2px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ff512f, #a30000);
+    color: white;
+    font-size: 15px;
+    transition: background 0.3s ease;
+}
+.red-gradient-button:hover {
+    background: linear-gradient(135deg, #ff512f, #a30000);
 }
